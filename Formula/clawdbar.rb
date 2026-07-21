@@ -22,6 +22,9 @@ class Clawdbar < Formula
       Start ClawdBar with:
         clawdbar &
       Then enable "로그인 시 자동 시작" in the popover to launch at login.
+
+      Note: after `brew upgrade`, re-enable launch-at-login in the popover
+      (the app path changes on upgrade, which invalidates the login item).
     EOS
   end
 

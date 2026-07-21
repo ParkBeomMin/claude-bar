@@ -44,6 +44,11 @@ struct PopoverView: View {
         }
         .padding(16)
         .frame(width: 300)
+        .onAppear {
+            if LaunchAtLogin.isAvailable {
+                launchAtLoginEnabled = LaunchAtLogin.isEnabled
+            }
+        }
     }
 
     private var header: some View {
@@ -57,7 +62,8 @@ struct PopoverView: View {
                 if let error = state.lastError {
                     Text(error).font(.caption).foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
-                } else if let updated = state.lastUpdated {
+                }
+                if let updated = state.lastUpdated {
                     Text("마지막 갱신 \(updated.formatted(date: .omitted, time: .shortened))")
                         .font(.caption).foregroundColor(.secondary)
                 }
@@ -139,7 +145,11 @@ struct PopoverView: View {
                 .font(.caption)
                 .disabled(!LaunchAtLogin.isAvailable)
                 .onChange(of: launchAtLoginEnabled) { newValue in
-                    try? LaunchAtLogin.set(newValue)
+                    do {
+                        try LaunchAtLogin.set(newValue)
+                    } catch {
+                        launchAtLoginEnabled = LaunchAtLogin.isEnabled
+                    }
                 }
             HStack {
                 Button("새로고침") { Task { await state.refreshUsage() } }

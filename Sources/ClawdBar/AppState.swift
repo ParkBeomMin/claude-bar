@@ -19,6 +19,8 @@ final class AppState: ObservableObject {
     private var usageTimer: Timer?
     private var localTimer: Timer?
     private var lastSeenModification: Date?
+    private var lastAggregationAt = Date.distantPast
+    private var lastComputedDayStart = Date.distantPast
 
     var isActive: Bool { !activeProjects.isEmpty }
     var faceStage: FaceStage { FaceStage(remaining: snapshot?.displayRemaining) }
@@ -57,9 +59,18 @@ final class AppState: ObservableObject {
     }
 
     private func refreshLocal(force: Bool) {
-        activeProjects = scanner.activeProjects()
+        let projects = scanner.activeProjects()
+        if projects != activeProjects { activeProjects = projects }
+
         let latest = scanner.latestModification()
-        if force || latest != lastSeenModification {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let dayRolledOver = startOfDay != lastComputedDayStart
+        let fileChanged = latest != lastSeenModification
+        let throttleElapsed = Date().timeIntervalSince(lastAggregationAt) >= 30
+
+        if force || dayRolledOver || (fileChanged && throttleElapsed) {
+            lastAggregationAt = Date()
+            lastComputedDayStart = startOfDay
             lastSeenModification = latest
             let scanner = self.scanner
             Task.detached(priority: .utility) {
