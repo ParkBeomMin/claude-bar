@@ -22,6 +22,7 @@ final class AppState: ObservableObject {
     private var lastSeenModification: Date?
     private var lastAggregationAt = Date.distantPast
     private var lastComputedDayStart = Date.distantPast
+    private var rateLimitedUntil: Date?
 
     var isActive: Bool { !activeProjects.isEmpty }
     var faceStage: FaceStage { FaceStage(remaining: snapshot?.displayRemaining) }
@@ -53,6 +54,10 @@ final class AppState: ObservableObject {
         } catch ClaudeBarError.keychainUnavailable {
             snapshot = nil
             lastError = "키체인에서 Claude Code 로그인 정보를 읽지 못했어요. Claude Code에 로그인되어 있는지 확인해주세요."
+        } catch ClaudeBarError.apiError(let code) where code == 429 {
+            // 사용량 API 요청 제한: 마지막 값 유지하고 5분 백오프
+            rateLimitedUntil = Date().addingTimeInterval(300)
+            lastError = "요청이 많아 잠시 쉬는 중이에요 — 5분 뒤 자동 재시도"
         } catch {
             // 네트워크/API 오류: 마지막 값 유지
             lastError = "사용량을 가져오지 못했어요 (\(error.localizedDescription))"
@@ -84,7 +89,13 @@ final class AppState: ObservableObject {
 
     private func scheduleUsageTimer() {
         usageTimer?.invalidate()
-        let interval: TimeInterval = isActive ? 30 : 60
+        let interval: TimeInterval
+        if let until = rateLimitedUntil, until > Date() {
+            interval = max(until.timeIntervalSinceNow, 60)
+        } else {
+            // 비공개 사용량 API의 요청 제한이 빡빡해 여유 있게 폴링한다
+            interval = isActive ? 60 : 120
+        }
         usageTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             Task { @MainActor in await self?.refreshUsage() }
         }

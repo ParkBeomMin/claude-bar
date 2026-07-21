@@ -44,7 +44,7 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 ## How it works
 
 - Plan limits: `GET https://api.anthropic.com/api/oauth/usage` with the OAuth token
-  from the macOS Keychain (service `Claude Code-credentials`). Polled every 60s (30s while active).
+  from the macOS Keychain (service `Claude Code-credentials`). Polled every 120s (60s while active), with automatic backoff on rate limits.
 - Token stats: local parse of `~/.claude/projects/**/*.jsonl` (never uploaded anywhere).
 - Activity: a session file modified in the last 30s means Claude is working → bounce!
 
