@@ -39,9 +39,11 @@ public protocol UsageProviding {
     func fetch() async throws -> UsageSnapshot
 }
 
-public struct UsageFetcher: UsageProviding {
+public final class UsageFetcher: UsageProviding {
     let tokenProvider: TokenProviding
     let session: URLSession
+    /// 키체인 접근 팝업을 실행당 1회로 줄이기 위해 토큰을 메모리에 캐시한다.
+    private var cachedToken: String?
 
     public init(tokenProvider: TokenProviding = KeychainTokenProvider(), session: URLSession = .shared) {
         self.tokenProvider = tokenProvider
@@ -49,7 +51,24 @@ public struct UsageFetcher: UsageProviding {
     }
 
     public func fetch() async throws -> UsageSnapshot {
-        let token = try tokenProvider.accessToken()
+        let token: String
+        if let cachedToken {
+            token = cachedToken
+        } else {
+            token = try tokenProvider.accessToken()
+            cachedToken = token
+        }
+        do {
+            return try await request(token: token)
+        } catch ClawdBarError.apiError(let code) where code == 401 {
+            // 토큰이 갱신된 경우: 키체인에서 새로 읽어 1회 재시도
+            let fresh = try tokenProvider.accessToken()
+            cachedToken = fresh
+            return try await request(token: fresh)
+        }
+    }
+
+    private func request(token: String) async throws -> UsageSnapshot {
         var request = URLRequest(url: URL(string: "https://api.anthropic.com/api/oauth/usage")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("oauth-2025-04-20", forHTTPHeaderField: "anthropic-beta")

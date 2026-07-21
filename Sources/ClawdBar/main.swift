@@ -28,7 +28,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if popover.isShown {
             popover.performClose(nil)
         } else {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            // NSStatusBarButton은 flipped 좌표계라 .minY가 위쪽 가장자리가 되어
+            // 팝오버가 메뉴바를 덮는다. .maxY가 메뉴바 아래로 열린다.
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .maxY)
             popover.contentViewController?.view.window?.makeKey()
         }
     }
