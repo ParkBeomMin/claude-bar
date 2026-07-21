@@ -9,25 +9,26 @@ public struct KeychainTokenProvider: TokenProviding {
     public init() {}
 
     public func accessToken() throws -> String {
-        // 같은 서비스명("Claude Code-credentials") 항목이 여러 개일 수 있어
-        // 전부 읽어 최신 수정순으로 파싱에 성공하는 항목을 사용한다.
-        let query: [String: Any] = [
+        // 같은 서비스명("Claude Code-credentials") 항목이 여러 개일 수 있다.
+        // 1단계: 메타데이터만 조회(암호 프롬프트 없음)해 최신 수정순으로 정렬하고,
+        // 2단계: 최신 항목부터 하나씩 실제 데이터를 읽는다(프롬프트는 읽는 항목에만 뜸).
+        let attrQuery: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "Claude Code-credentials",
-            kSecReturnData as String: true,
             kSecReturnAttributes as String: true,
+            kSecReturnPersistentRef as String: true,
             kSecMatchLimit as String: kSecMatchLimitAll,
         ]
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-        guard status == errSecSuccess else {
-            throw ClaudeBarError.keychainUnavailable(status)
+        var result: CFTypeRef?
+        let listStatus = SecItemCopyMatching(attrQuery as CFDictionary, &result)
+        guard listStatus == errSecSuccess else {
+            throw ClaudeBarError.keychainUnavailable(listStatus)
         }
 
         let entries: [[String: Any]]
-        if let array = item as? [[String: Any]] {
+        if let array = result as? [[String: Any]] {
             entries = array
-        } else if let single = item as? [String: Any] {
+        } else if let single = result as? [String: Any] {
             entries = [single]
         } else {
             throw ClaudeBarError.keychainUnavailable(errSecItemNotFound)
@@ -38,13 +39,28 @@ public struct KeychainTokenProvider: TokenProviding {
             let db = b[kSecAttrModificationDate as String] as? Date ?? .distantPast
             return da > db
         }
+
+        var lastStatus: OSStatus = errSecItemNotFound
+        var sawMalformed = false
         for entry in sorted {
-            if let data = entry[kSecValueData as String] as? Data,
-               let token = try? Self.parseCredentials(data) {
+            guard let ref = entry[kSecValuePersistentRef as String] else { continue }
+            let dataQuery: [String: Any] = [
+                kSecValuePersistentRef as String: ref,
+                kSecReturnData as String: true,
+            ]
+            var item: CFTypeRef?
+            let status = SecItemCopyMatching(dataQuery as CFDictionary, &item)
+            guard status == errSecSuccess, let data = item as? Data else {
+                lastStatus = status
+                continue
+            }
+            if let token = try? Self.parseCredentials(data) {
                 return token
             }
+            sawMalformed = true
         }
-        throw ClaudeBarError.credentialsMalformed
+        if sawMalformed { throw ClaudeBarError.credentialsMalformed }
+        throw ClaudeBarError.keychainUnavailable(lastStatus)
     }
 
     static func parseCredentials(_ data: Data) throws -> String {
