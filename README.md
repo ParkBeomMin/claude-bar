@@ -9,7 +9,7 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 
 <p align="center">
   <img src="docs/screenshot-menubar.png" alt="Clawd in the menu bar" height="44"><br>
-  <img src="docs/screenshot-popover.png" alt="ClaudeBar popover" width="380">
+  <img src="docs/popover.png" alt="ClaudeBar popover" width="380">
 </p>
 
 ## Features
