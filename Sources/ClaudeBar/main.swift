@@ -1,6 +1,6 @@
 import AppKit
 import SwiftUI
-import ClawdBarCore
+import ClaudeBarCore
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var state: AppState!

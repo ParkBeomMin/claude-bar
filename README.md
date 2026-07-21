@@ -1,4 +1,4 @@
-# ClawdBar 🦞
+# Claude Bar 🦞
 
 [![CI](https://github.com/ParkBeomMin/claude-bar/actions/workflows/ci.yml/badge.svg)](https://github.com/ParkBeomMin/claude-bar/actions/workflows/ci.yml)
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)
@@ -22,8 +22,8 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 ### Homebrew (recommended)
 
     brew tap ParkBeomMin/claude-bar https://github.com/ParkBeomMin/claude-bar
-    brew install clawdbar
-    clawdbar &
+    brew install claude-bar
+    claude-bar &
 
 ### From source
 
@@ -33,7 +33,7 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 ## Requirements & permissions
 
 - macOS 13+, Claude Code logged in (Pro/Max plan for limit data)
-- On first launch macOS asks for **Keychain access** — ClawdBar reads the OAuth token
+- On first launch macOS asks for **Keychain access** — ClaudeBar reads the OAuth token
   Claude Code stored, to call the same usage endpoint the `/usage` command uses.
   The token never leaves your machine except to `api.anthropic.com`.
 - Notification permission is requested on first launch (optional).

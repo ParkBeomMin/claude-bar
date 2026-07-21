@@ -1,6 +1,6 @@
 import AppKit
 import Combine
-import ClawdBarCore
+import ClaudeBarCore
 
 @MainActor
 final class AppState: ObservableObject {
@@ -50,7 +50,7 @@ final class AppState: ObservableObject {
             lastError = nil
             let alerts = planner.update(remaining: snap.displayRemaining)
             if !alerts.isEmpty { onAlerts?(alerts) }
-        } catch ClawdBarError.keychainUnavailable {
+        } catch ClaudeBarError.keychainUnavailable {
             snapshot = nil
             lastError = "키체인에서 Claude Code 로그인 정보를 읽지 못했어요. Claude Code에 로그인되어 있는지 확인해주세요."
         } catch {

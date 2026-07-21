@@ -1,4 +1,4 @@
-# ClawdBar 디자인 스펙
+# ClaudeBar 디자인 스펙
 
 날짜: 2026-07-21
 상태: 사용자 승인됨 (구현 계획 작성 전)
@@ -7,8 +7,8 @@
 
 Claude Code 사용량을 귀여운 픽셀아트 캐릭터와 함께 macOS 메뉴바에 표시하는 오픈소스 앱.
 
-- 프로젝트명: **ClawdBar**
-- 저장소: `~/Workspace/clawdbar` (GitHub 공개 예정)
+- 프로젝트명: **ClaudeBar**
+- 저장소: `~/Workspace/claude-bar` (GitHub 공개 예정)
 - 라이선스: MIT
 - README: 영어 기본 + 한국어 병기
 - 대상 사용자: Claude Code Pro/Max 플랜 사용자 (제작자 본인 + 오픈소스 배포)
@@ -111,7 +111,7 @@ Swift Package Manager 기반 executable. Xcode 프로젝트 파일 없음 — `s
 ## 배포 (Homebrew)
 
 - GitHub 공개 저장소 + GitHub Actions로 태그 릴리즈 시 자동 빌드.
-- 개인 tap: `brew tap bmpark/clawdbar && brew install clawdbar`. Formula가 소스에서 빌드하므로 Apple 개발자 계정·공증 없이 Gatekeeper 경고 없음.
+- 개인 tap: `brew tap bmpark/claude-bar && brew install claude-bar`. Formula가 소스에서 빌드하므로 Apple 개발자 계정·공증 없이 Gatekeeper 경고 없음.
 - 미리 빌드된 cask 배포는 공증 필요로 1단계 제외. homebrew-core 등록은 인지도 확보 후 도전.
 
 ## 테스트

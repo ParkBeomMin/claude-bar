@@ -1,5 +1,5 @@
 import XCTest
-@testable import ClawdBarCore
+@testable import ClaudeBarCore
 
 final class CharacterSpritesTests: XCTestCase {
     let allStages: [FaceStage] = [.calm, .smile, .worried, .struggling, .knockedOut, .unknown]

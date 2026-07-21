@@ -1,6 +1,6 @@
 import Foundation
 import UserNotifications
-import ClawdBarCore
+import ClaudeBarCore
 
 final class NotificationManager {
     static var isAvailable: Bool { Bundle.main.bundleIdentifier != nil }

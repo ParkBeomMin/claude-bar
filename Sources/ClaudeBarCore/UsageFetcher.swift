@@ -18,7 +18,7 @@ public struct KeychainTokenProvider: TokenProviding {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         guard status == errSecSuccess, let data = item as? Data else {
-            throw ClawdBarError.keychainUnavailable(status)
+            throw ClaudeBarError.keychainUnavailable(status)
         }
         return try Self.parseCredentials(data)
     }
@@ -29,7 +29,7 @@ public struct KeychainTokenProvider: TokenProviding {
             let claudeAiOauth: OAuth
         }
         guard let creds = try? JSONDecoder().decode(Credentials.self, from: data) else {
-            throw ClawdBarError.credentialsMalformed
+            throw ClaudeBarError.credentialsMalformed
         }
         return creds.claudeAiOauth.accessToken
     }
@@ -60,7 +60,7 @@ public final class UsageFetcher: UsageProviding {
         }
         do {
             return try await request(token: token)
-        } catch ClawdBarError.apiError(let code) where code == 401 {
+        } catch ClaudeBarError.apiError(let code) where code == 401 {
             // 토큰이 갱신된 경우: 키체인에서 새로 읽어 1회 재시도
             let fresh = try tokenProvider.accessToken()
             cachedToken = fresh
@@ -77,7 +77,7 @@ public final class UsageFetcher: UsageProviding {
 
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-            throw ClawdBarError.apiError((response as? HTTPURLResponse)?.statusCode ?? -1)
+            throw ClaudeBarError.apiError((response as? HTTPURLResponse)?.statusCode ?? -1)
         }
         return try JSONDecoder().decode(UsageResponse.self, from: data).snapshot()
     }

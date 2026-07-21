@@ -1,5 +1,5 @@
 import XCTest
-@testable import ClawdBarCore
+@testable import ClaudeBarCore
 
 final class UsageResponseTests: XCTestCase {
     // 실제 /api/oauth/usage 응답 축약본 (2026-07-21 캡처)

@@ -1,6 +1,6 @@
 import AppKit
 import Combine
-import ClawdBarCore
+import ClaudeBarCore
 
 final class StatusItemController {
     let statusItem: NSStatusItem

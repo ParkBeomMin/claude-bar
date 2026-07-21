@@ -24,5 +24,5 @@ jobs:
 
       - name: Verify app structure
         run: |
-          test -f "ClawdBar.app/Contents/MacOS/clawdbar"
-          test -f "ClawdBar.app/Contents/Info.plist"
+          test -f "ClaudeBar.app/Contents/MacOS/claude-bar"
+          test -f "ClaudeBar.app/Contents/Info.plist"

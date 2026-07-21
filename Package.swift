@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "ClawdBar",
+    name: "ClaudeBar",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name: "clawdbar", targets: ["ClawdBar"]),
+        .executable(name: "claude-bar", targets: ["ClaudeBar"]),
     ],
     targets: [
-        .target(name: "ClawdBarCore"),
-        .executableTarget(name: "ClawdBar", dependencies: ["ClawdBarCore"]),
-        .testTarget(name: "ClawdBarCoreTests", dependencies: ["ClawdBarCore"]),
+        .target(name: "ClaudeBarCore"),
+        .executableTarget(name: "ClaudeBar", dependencies: ["ClaudeBarCore"]),
+        .testTarget(name: "ClaudeBarCoreTests", dependencies: ["ClaudeBarCore"]),
     ]
 )

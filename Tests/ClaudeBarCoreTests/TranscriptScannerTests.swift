@@ -1,5 +1,5 @@
 import XCTest
-@testable import ClawdBarCore
+@testable import ClaudeBarCore
 
 final class TranscriptScannerTests: XCTestCase {
     // now = 2026-07-21T12:00:00Z 기준. 오늘 시작 = 07-21T00:00Z, 주 시작 = 07-19T00:00Z(일요일)로 가정한 UTC 캘린더 테스트.
@@ -47,8 +47,8 @@ final class TranscriptScannerTests: XCTestCase {
     }
 
     func testExtractCwd() {
-        let tail = #"{"foo":1}\#n{"type":"assistant","cwd":"/Users/test/Workspace/clawdbar","message":{}}"#
-        XCTAssertEqual(TranscriptScanner.extractCwd(fromTail: tail), "/Users/test/Workspace/clawdbar")
+        let tail = #"{"foo":1}\#n{"type":"assistant","cwd":"/Users/test/Workspace/claude-bar","message":{}}"#
+        XCTAssertEqual(TranscriptScanner.extractCwd(fromTail: tail), "/Users/test/Workspace/claude-bar")
         XCTAssertNil(TranscriptScanner.extractCwd(fromTail: "no cwd here"))
     }
 

@@ -1,5 +1,5 @@
 import XCTest
-@testable import ClawdBarCore
+@testable import ClaudeBarCore
 
 final class CredentialsTests: XCTestCase {
     func testParseCredentials() throws {
@@ -10,7 +10,7 @@ final class CredentialsTests: XCTestCase {
 
     func testParseCredentialsMalformed() {
         XCTAssertThrowsError(try KeychainTokenProvider.parseCredentials(Data("{}".utf8))) { error in
-            guard case ClawdBarError.credentialsMalformed = error else {
+            guard case ClaudeBarError.credentialsMalformed = error else {
                 return XCTFail("wrong error: \(error)")
             }
         }

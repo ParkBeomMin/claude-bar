@@ -1,4 +1,4 @@
-class Clawdbar < Formula
+class ClaudeBar < Formula
   desc "Cute pixel-art menu bar widget showing Claude Code usage"
   homepage "https://github.com/ParkBeomMin/claude-bar"
   url "https://github.com/ParkBeomMin/claude-bar/archive/refs/tags/v0.1.0.tar.gz"
@@ -9,18 +9,18 @@ class Clawdbar < Formula
   depends_on macos: :ventura
 
   def install
-    system "make", "bundle"
-    prefix.install "ClawdBar.app"
-    (bin/"clawdbar").write <<~EOS
+    system "make", "bundle", "SWIFT_FLAGS=--disable-sandbox"
+    prefix.install "ClaudeBar.app"
+    (bin/"claude-bar").write <<~EOS
       #!/bin/bash
-      exec "#{prefix}/ClawdBar.app/Contents/MacOS/clawdbar" "$@"
+      exec "#{prefix}/ClaudeBar.app/Contents/MacOS/claude-bar" "$@"
     EOS
   end
 
   def caveats
     <<~EOS
-      Start ClawdBar with:
-        clawdbar &
+      Start ClaudeBar with:
+        claude-bar &
       Then enable "로그인 시 자동 시작" in the popover to launch at login.
 
       Note: after `brew upgrade`, re-enable launch-at-login in the popover
@@ -29,6 +29,6 @@ class Clawdbar < Formula
   end
 
   test do
-    assert_predicate prefix/"ClawdBar.app/Contents/MacOS/clawdbar", :exist?
+    assert_predicate prefix/"ClaudeBar.app/Contents/MacOS/claude-bar", :exist?
   end
 end

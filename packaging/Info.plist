@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleIdentifier</key>
-    <string>com.clawdbar.ClawdBar</string>
+    <string>com.claudebar.ClaudeBar</string>
     <key>CFBundleName</key>
-    <string>ClawdBar</string>
+    <string>ClaudeBar</string>
     <key>CFBundleExecutable</key>
-    <string>clawdbar</string>
+    <string>claude-bar</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

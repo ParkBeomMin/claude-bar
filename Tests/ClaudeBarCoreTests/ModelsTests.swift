@@ -1,5 +1,5 @@
 import XCTest
-@testable import ClawdBarCore
+@testable import ClaudeBarCore
 
 final class ModelsTests: XCTestCase {
     func testPercentRemaining() {

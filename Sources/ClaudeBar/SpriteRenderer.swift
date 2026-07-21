@@ -1,5 +1,5 @@
 import AppKit
-import ClawdBarCore
+import ClaudeBarCore
 
 enum SpriteRenderer {
     static let palette: [Character: NSColor] = [

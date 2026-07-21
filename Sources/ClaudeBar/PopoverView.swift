@@ -1,5 +1,5 @@
 import SwiftUI
-import ClawdBarCore
+import ClaudeBarCore
 
 struct GaugeBar: View {
     let remaining: Double  // 0...100

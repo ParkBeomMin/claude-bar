@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ClawdBarError: Error {
+public enum ClaudeBarError: Error {
     case keychainUnavailable(OSStatus)
     case credentialsMalformed
     case apiError(Int)
