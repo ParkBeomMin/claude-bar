@@ -11,13 +11,13 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 
 ### Homebrew (recommended)
 
-    brew tap <GITHUB_USER>/clawdbar https://github.com/<GITHUB_USER>/clawdbar
+    brew tap ParkBeomMin/clawdbar https://github.com/ParkBeomMin/clawdbar
     brew install clawdbar
     clawdbar &
 
 ### From source
 
-    git clone https://github.com/<GITHUB_USER>/clawdbar && cd clawdbar
+    git clone https://github.com/ParkBeomMin/clawdbar && cd clawdbar
     make run
 
 ## Requirements & permissions
