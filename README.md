@@ -1,23 +1,33 @@
 # ClawdBar 🦞
 
-A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at a glance.
+[![CI](https://github.com/ParkBeomMin/claude-bar/actions/workflows/ci.yml/badge.svg)](https://github.com/ParkBeomMin/claude-bar/actions/workflows/ci.yml)
+![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)
+![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
-- **Plan limits**: 5-hour session & weekly limit remaining (same data as `/usage`)
-- **Character moods**: the little orange buddy's face changes as your limit runs out — and bounces while Claude Code is working
-- **Token stats**: today / this week token counts with API-equivalent cost, parsed locally from `~/.claude/projects`
-- **Fun notifications**: get told to go home when you hit the limit 🦞
+A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at a glance — starring **Clawd**, the little orange mascot.
+
+<!-- TODO: screenshot — docs/screenshot.png (menu bar + popover) -->
+
+## Features
+
+- 📊 **Plan limits**: 5-hour session & weekly limit remaining (same data as `/usage`), color-coded gauges
+- 🦞 **Clawd moods**: 6 pixel faces that change as your limit runs out — and Clawd bounces while Claude Code is working
+- 🔢 **Token stats**: today / this week token counts with API-equivalent cost in USD and KRW, parsed locally from `~/.claude/projects`
+- 🔔 **Fun notifications**: threshold alerts at 20% / 5%, and a "go home" message when you hit the limit
+- 🚀 **Launch at login**, lightweight native app (SwiftUI + AppKit, zero dependencies)
 
 ## Install
 
 ### Homebrew (recommended)
 
-    brew tap ParkBeomMin/clawdbar https://github.com/ParkBeomMin/clawdbar
+    brew tap ParkBeomMin/claude-bar https://github.com/ParkBeomMin/claude-bar
     brew install clawdbar
     clawdbar &
 
 ### From source
 
-    git clone https://github.com/ParkBeomMin/clawdbar && cd clawdbar
+    git clone https://github.com/ParkBeomMin/claude-bar && cd claude-bar
     make run
 
 ## Requirements & permissions

@@ -1,7 +1,7 @@
 class Clawdbar < Formula
   desc "Cute pixel-art menu bar widget showing Claude Code usage"
-  homepage "https://github.com/ParkBeomMin/clawdbar"
-  url "https://github.com/ParkBeomMin/clawdbar/archive/refs/tags/v0.1.0.tar.gz"
+  homepage "https://github.com/ParkBeomMin/claude-bar"
+  url "https://github.com/ParkBeomMin/claude-bar/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "0000000000000000000000000000000000000000000000000000000000000000" # v0.1.0 릴리즈 후 실제 값으로 교체
   license "MIT"
 
