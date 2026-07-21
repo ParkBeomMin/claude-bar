@@ -116,11 +116,17 @@ struct PopoverView: View {
     }
 
     private func statsRow(label: String, stats: TokenStats) -> some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline) {
             Text(label).frame(width: 50, alignment: .leading)
             Text("\(Formatters.tokens(stats.totalTokens)) tokens")
             Spacer()
-            Text(Formatters.usd(stats.costUSD)).foregroundColor(.secondary)
+            VStack(alignment: .trailing, spacing: 1) {
+                Text(Formatters.usd(stats.costUSD)).foregroundColor(.secondary)
+                if let rate = state.usdKrwRate {
+                    Text(Formatters.krw(stats.costUSD, rate: rate))
+                        .foregroundColor(.secondary)
+                }
+            }
         }
         .font(.system(.caption, design: .monospaced))
     }

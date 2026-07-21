@@ -1,56 +1,56 @@
 import Foundation
 
 public enum CharacterSprites {
-    /// Clawd(Claude Code 마스코트) 스타일 몸통 베이스 (16×16).
-    /// 각진 주황 몸통 + 위로 든 양쪽 집게 + 아래 짧은 다리.
-    /// '.'투명 'o'주황 'd'진한 주황 외곽선
+    /// Clawd(Claude Code 마스코트) 몸통 베이스 (16×16).
+    /// 실제 스프라이트 재현: 납작한 직사각 몸통(외곽선 없는 단색), 오른쪽 위 돌기,
+    /// 양옆으로 뻗은 팔, 아래 다리 4개. 눈은 표정 패치로 그린다.
+    /// '.'투명 'o'주황
     static let body: [String] = [
         "................",  // 0
-        "..dd........dd..",  // 1  집게 끝
-        ".dood......dood.",  // 2  집게
-        ".dood......dood.",  // 3
-        "..dd.dddddd.dd..",  // 4  집게 아래 + 몸통 윗변
-        "...ddoooooodd...",  // 5
-        "..dooooooooood..",  // 6
-        ".dooooooooooood.",  // 7
-        ".dooooooooooood.",  // 8
-        ".dooooooooooood.",  // 9
-        ".dooooooooooood.",  // 10
-        ".dooooooooooood.",  // 11
-        "..dooooooooood..",  // 12
-        "...dddddddddd...",  // 13
-        "...dd..dd..dd...",  // 14 다리 3개
+        "............oo..",  // 1  오른쪽 위 돌기
+        "...ooooooooooo..",  // 2  머리/몸통
+        "...ooooooooooo..",  // 3
+        "...ooooooooooo..",  // 4  (눈 위치)
+        "...ooooooooooo..",  // 5
+        "...ooooooooooo..",  // 6
+        "oooooooooooooooo",  // 7  팔 (양옆으로 뻗음)
+        "oooooooooooooooo",  // 8
+        "oooooooooooooooo",  // 9
+        "...ooooooooooo..",  // 10
+        "...ooooooooooo..",  // 11
+        "....o.o..o.o....",  // 12 다리 4개
+        "....o.o..o.o....",  // 13
+        "................",  // 14
         "................",  // 15
     ]
 
-    /// 표정 패치: (row, col, char). Clawd 특유의 세로 네모 눈이 기본.
+    /// 표정 패치: (row, col, char). Clawd 기본 눈 = 세로 슬릿(1×2) 두 개, 입 없음.
     static func facePatches(for stage: FaceStage) -> [(Int, Int, Character)] {
-        // 2×2 네모 눈 (Clawd 기본 눈)
-        let blockEyes: [(Int, Int, Character)] = [
-            (7, 4, "k"), (7, 5, "k"), (8, 4, "k"), (8, 5, "k"),
-            (7, 10, "k"), (7, 11, "k"), (8, 10, "k"), (8, 11, "k"),
+        // 세로 슬릿 눈 (원본 Clawd 눈)
+        let slitEyes: [(Int, Int, Character)] = [
+            (4, 5, "k"), (5, 5, "k"),
+            (4, 10, "k"), (5, 10, "k"),
         ]
         switch stage {
-        case .calm:  // 네모 눈만 (Clawd 기본 표정)
-            return blockEyes
-        case .smile:  // 네모 눈 + 웃는 입
-            return blockEyes + [(10, 6, "k"), (11, 7, "k"), (11, 8, "k"), (10, 9, "k")]
-        case .worried:  // 네모 눈 + 벌린 입 + 땀
-            return blockEyes + [(10, 7, "k"), (10, 8, "k"), (11, 7, "k"), (11, 8, "k"),
-                                (5, 13, "w")]
+        case .calm:  // 원본 그대로: 눈만, 입 없음
+            return slitEyes
+        case .smile:  // 슬릿 눈 + 웃는 입
+            return slitEyes + [(8, 6, "k"), (9, 7, "k"), (9, 8, "k"), (8, 9, "k")]
+        case .worried:  // 슬릿 눈 + 벌린 입 + 땀
+            return slitEyes + [(8, 7, "k"), (8, 8, "k"), (9, 7, "k"), (9, 8, "k"),
+                               (2, 14, "w")]
         case .struggling:  // >< 눈 + 일자 입 + 땀 두 방울
-            return [(6, 4, "k"), (7, 5, "k"), (8, 4, "k"),
-                    (6, 11, "k"), (7, 10, "k"), (8, 11, "k"),
-                    (10, 6, "k"), (10, 7, "k"), (10, 8, "k"), (10, 9, "k"),
-                    (3, 14, "w"), (5, 13, "w")]
+            return [(3, 4, "k"), (4, 5, "k"), (5, 4, "k"),
+                    (3, 11, "k"), (4, 10, "k"), (5, 11, "k"),
+                    (8, 6, "k"), (8, 7, "k"), (8, 8, "k"), (8, 9, "k"),
+                    (1, 14, "w"), (3, 14, "w")]
         case .knockedOut:  // X X 눈 + 크게 벌린 입
-            return [(6, 3, "k"), (7, 4, "k"), (8, 5, "k"), (6, 5, "k"), (8, 3, "k"),
-                    (6, 10, "k"), (7, 11, "k"), (8, 12, "k"), (6, 12, "k"), (8, 10, "k"),
-                    (10, 7, "k"), (10, 8, "k"), (11, 7, "k"), (11, 8, "k")]
-        case .unknown:  // 흰 네모 눈 (데이터 없음)
-            return [(7, 4, "w"), (7, 5, "w"), (8, 4, "w"), (8, 5, "w"),
-                    (7, 10, "w"), (7, 11, "w"), (8, 10, "w"), (8, 11, "w"),
-                    (10, 6, "k"), (10, 7, "k"), (10, 8, "k"), (10, 9, "k")]
+            return [(3, 4, "k"), (4, 5, "k"), (5, 6, "k"), (3, 6, "k"), (5, 4, "k"),
+                    (3, 9, "k"), (4, 10, "k"), (5, 11, "k"), (3, 11, "k"), (5, 9, "k"),
+                    (8, 7, "k"), (8, 8, "k"), (9, 7, "k"), (9, 8, "k")]
+        case .unknown:  // 흰 슬릿 눈 + 일자 입 (데이터 없음)
+            return [(4, 5, "w"), (5, 5, "w"), (4, 10, "w"), (5, 10, "w"),
+                    (8, 6, "k"), (8, 7, "k"), (8, 8, "k"), (8, 9, "k")]
         }
     }
 

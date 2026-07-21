@@ -28,10 +28,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if popover.isShown {
             popover.performClose(nil)
         } else {
-            // NSStatusBarButton은 flipped 좌표계라 .minY가 위쪽 가장자리가 되어
-            // 팝오버가 메뉴바를 덮는다. .maxY가 메뉴바 아래로 열린다.
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .maxY)
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             popover.contentViewController?.view.window?.makeKey()
+            // NSPopover가 상태바를 덮는 위치에 열리는 문제가 있어,
+            // 표시 직후 팝오버 창의 상단을 메뉴바 하단에 맞춰 강제 이동한다.
+            DispatchQueue.main.async { [weak self] in
+                guard let self,
+                      let popWindow = self.popover.contentViewController?.view.window,
+                      let barWindow = button.window else { return }
+                var frame = popWindow.frame
+                let targetTop = barWindow.frame.minY - 4
+                if frame.maxY != targetTop {
+                    frame.origin.y = targetTop - frame.height
+                    popWindow.setFrame(frame, display: true)
+                }
+            }
         }
     }
 }

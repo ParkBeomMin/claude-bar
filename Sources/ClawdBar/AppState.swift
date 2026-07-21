@@ -9,6 +9,7 @@ final class AppState: ObservableObject {
     @Published var activeProjects: [String] = []
     @Published var lastUpdated: Date?
     @Published var lastError: String?
+    @Published var usdKrwRate: Double?
 
     var onAlerts: (([NotificationPlanner.Alert]) -> Void)?
 
@@ -32,6 +33,7 @@ final class AppState: ObservableObject {
 
     func start() {
         Task { await refreshUsage() }
+        Task { usdKrwRate = await ExchangeRate.fetchUSDKRW() }
         refreshLocal(force: true)
         scheduleUsageTimer()
         // 5초마다 활동 감지 + 변경 시에만 통계 재집계 (FSEvents 대신 경량 폴링)

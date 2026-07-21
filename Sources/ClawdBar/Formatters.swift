@@ -13,6 +13,14 @@ enum Formatters {
         String(format: "$%.2f", d)
     }
 
+    static func krw(_ usd: Double, rate: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        let value = formatter.string(from: NSNumber(value: usd * rate)) ?? "0"
+        return "₩\(value)"
+    }
+
     static func timeUntil(_ date: Date?) -> String {
         guard let date else { return "—" }
         let seconds = Int(date.timeIntervalSinceNow)
