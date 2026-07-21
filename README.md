@@ -7,7 +7,10 @@
 
 A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at a glance — starring **Clawd**, the little orange mascot.
 
-<!-- TODO: screenshot — docs/screenshot.png (menu bar + popover) -->
+<p align="center">
+  <img src="docs/screenshot-menubar.png" alt="Clawd in the menu bar" height="44"><br>
+  <img src="docs/screenshot-popover.png" alt="ClaudeBar popover" width="380">
+</p>
 
 ## Features
 
