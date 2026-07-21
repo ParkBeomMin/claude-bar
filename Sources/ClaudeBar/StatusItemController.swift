@@ -35,7 +35,7 @@ final class StatusItemController {
         statusItem.button?.image = SpriteRenderer.image(grid: CharacterSprites.grid(for: stage, frame: frame))
 
         let text: String
-        if let remaining = state.snapshot?.displayRemaining {
+        if let remaining = state.snapshot?.session.percentRemaining {
             text = " \(Int(remaining.rounded()))%"
         } else {
             text = " --%"

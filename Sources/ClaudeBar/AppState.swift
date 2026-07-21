@@ -25,7 +25,9 @@ final class AppState: ObservableObject {
     private var rateLimitedUntil: Date?
 
     var isActive: Bool { !activeProjects.isEmpty }
-    var faceStage: FaceStage { FaceStage(remaining: snapshot?.displayRemaining) }
+    // 메뉴바 %와 표정은 5시간 세션 기준 (주간 한도는 팝오버에서 확인,
+    // 알림은 둘 중 먼저 소진되는 쪽(displayRemaining) 기준 유지)
+    var faceStage: FaceStage { FaceStage(remaining: snapshot?.session.percentRemaining) }
 
     init(fetcher: UsageProviding = UsageFetcher(), scanner: TranscriptScanner = TranscriptScanner()) {
         self.fetcher = fetcher
