@@ -5,7 +5,7 @@
 ![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
-A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at a glance — starring **Clawd**, the little orange mascot.
+A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at a glance — starring **Clawd** (claw + Claude), the community nickname for Claude Code's little orange pixel mascot.
 
 <p align="center">
   <img src="docs/screenshot-menubar.png" alt="Clawd in the menu bar" height="44"><br>
