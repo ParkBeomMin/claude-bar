@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var state: AppState!
     var statusController: StatusItemController!
     let popover = NSPopover()
+    let notifications = NotificationManager()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         state = AppState()
@@ -14,6 +15,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusController = StatusItemController(state: state) { [weak self] in
             self?.togglePopover()
+        }
+        notifications.requestPermission()
+        state.onAlerts = { [weak self] alerts in
+            for alert in alerts { self?.notifications.deliver(alert) }
         }
         state.start()
     }
