@@ -1,9 +1,17 @@
 import Foundation
 
-public enum ClaudeBarError: Error {
+public enum ClaudeBarError: Error, LocalizedError {
     case keychainUnavailable(OSStatus)
     case credentialsMalformed
     case apiError(Int)
+
+    public var errorDescription: String? {
+        switch self {
+        case .keychainUnavailable: return "키체인 접근이 거부되었어요"
+        case .credentialsMalformed: return "로그인 정보를 해석하지 못했어요"
+        case .apiError(let code): return "API 오류 (\(code))"
+        }
+    }
 }
 
 public struct UsageWindow: Equatable {

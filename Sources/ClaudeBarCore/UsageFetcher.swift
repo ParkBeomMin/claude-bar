@@ -9,18 +9,42 @@ public struct KeychainTokenProvider: TokenProviding {
     public init() {}
 
     public func accessToken() throws -> String {
+        // 같은 서비스명("Claude Code-credentials") 항목이 여러 개일 수 있어
+        // 전부 읽어 최신 수정순으로 파싱에 성공하는 항목을 사용한다.
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "Claude Code-credentials",
             kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecReturnAttributes as String: true,
+            kSecMatchLimit as String: kSecMatchLimitAll,
         ]
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
-        guard status == errSecSuccess, let data = item as? Data else {
+        guard status == errSecSuccess else {
             throw ClaudeBarError.keychainUnavailable(status)
         }
-        return try Self.parseCredentials(data)
+
+        let entries: [[String: Any]]
+        if let array = item as? [[String: Any]] {
+            entries = array
+        } else if let single = item as? [String: Any] {
+            entries = [single]
+        } else {
+            throw ClaudeBarError.keychainUnavailable(errSecItemNotFound)
+        }
+
+        let sorted = entries.sorted { a, b in
+            let da = a[kSecAttrModificationDate as String] as? Date ?? .distantPast
+            let db = b[kSecAttrModificationDate as String] as? Date ?? .distantPast
+            return da > db
+        }
+        for entry in sorted {
+            if let data = entry[kSecValueData as String] as? Data,
+               let token = try? Self.parseCredentials(data) {
+                return token
+            }
+        }
+        throw ClaudeBarError.credentialsMalformed
     }
 
     static func parseCredentials(_ data: Data) throws -> String {
