@@ -2,7 +2,7 @@ class ClaudeBar < Formula
   desc "Cute pixel-art menu bar widget showing Claude Code usage"
   homepage "https://github.com/ParkBeomMin/claude-bar"
   url "https://github.com/ParkBeomMin/claude-bar/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "f39c732b08f197f97f7d3dfb5edaaf54654efb3f48a321a17557ebda8a826f5e"
+  sha256 "e687473b02cf8579f1bdeb5fe5f6bc86c1f966d5312a9e9daf144c20afd6cd1d"
   license "MIT"
 
   depends_on xcode: ["15.0", :build]
