@@ -3,6 +3,6 @@ import XCTest
 
 final class ScaffoldTests: XCTestCase {
     func testVersion() {
-        XCTAssertEqual(ClaudeBar.version, "0.1.0")
+        XCTAssertEqual(ClaudeBar.version, "0.1.1")
     }
 }

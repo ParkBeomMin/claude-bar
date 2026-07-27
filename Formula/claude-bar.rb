@@ -1,7 +1,7 @@
 class ClaudeBar < Formula
   desc "Cute pixel-art menu bar widget showing Claude Code usage"
   homepage "https://github.com/ParkBeomMin/claude-bar"
-  url "https://github.com/ParkBeomMin/claude-bar/archive/refs/tags/v0.1.0.tar.gz"
+  url "https://github.com/ParkBeomMin/claude-bar/archive/refs/tags/v0.1.1.tar.gz"
   sha256 "f39c732b08f197f97f7d3dfb5edaaf54654efb3f48a321a17557ebda8a826f5e"
   license "MIT"
 
