@@ -48,6 +48,23 @@ A cute pixel-art menu bar widget for macOS that shows your Claude Code usage at 
 - Token stats: local parse of `~/.claude/projects/**/*.jsonl` (never uploaded anywhere).
 - Activity: a session file modified in the last 30s means Claude is working → bounce!
 
+## Changelog
+
+Full notes on the [Releases page](https://github.com/ParkBeomMin/claude-bar/releases).
+
+### v0.1.1 — 2026-07-28
+
+- Menu bar % and Clawd's face now track the **5-hour session limit** (weekly limit stays in the popover)
+- Handle duplicate Claude Code keychain entries — two-phase read, only one permission prompt
+- Automatic backoff on usage-API rate limits (429); polling relaxed to 60s active / 120s idle
+- Popover opens below the menu bar; KRW cost shown alongside USD; accurate Clawd sprite; README screenshots
+
+### v0.1.0 — 2026-07-21
+
+- Initial release: Clawd with 6 moods + activity bounce, session/weekly gauges,
+  local token stats with cost, threshold & "go home" notifications, launch at login,
+  Homebrew source-build formula
+
 ## License
 
 MIT
